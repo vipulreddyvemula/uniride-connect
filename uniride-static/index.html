@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UniRide - Share Rides, Save Money | IIIT Community</title>
+  <meta name="description" content="UniRide connects IIIT students for shared rides to airports, railway stations, and bus stands. Split costs, make friends.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header glass" id="header">
+    <div class="container header-content">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2"/>
+            <circle cx="6.5" cy="16.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/>
+          </svg>
+        </div>
+        <span class="logo-text">UniRide</span>
+      </a>
+
+      <nav class="nav-desktop" id="nav-desktop">
+        <!-- Nav links shown when logged in -->
+      </nav>
+
+      <div class="header-right">
+        <div id="auth-loading" class="skeleton" style="width: 80px; height: 36px; display: none;"></div>
+        
+        <!-- Shown when logged out -->
+        <button class="btn btn-primary" id="btn-signin" onclick="signInWithGoogle()">
+          <img src="https://www.google.com/favicon.ico" alt="Google" width="20" height="20">
+          Sign in with Google
+        </button>
+
+        <!-- Shown when logged in -->
+        <div class="user-menu" id="user-menu" style="display: none;">
+          <button class="user-menu-trigger" onclick="toggleUserDropdown()">
+            <div class="avatar" id="user-avatar">
+              <span id="user-initial">U</span>
+            </div>
+            <span class="user-name" id="user-name">User</span>
+          </button>
+          <div class="user-dropdown" id="user-dropdown">
+            <div class="dropdown-header">
+              <p class="dropdown-name" id="dropdown-name"></p>
+              <p class="dropdown-email" id="dropdown-email"></p>
+              <span class="verified-badge" id="dropdown-verified" style="display: none;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                IIIT Verified
+              </span>
+            </div>
+            <div class="dropdown-divider"></div>
+            <a href="profile.html" class="dropdown-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+              Profile
+            </a>
+            <a href="my-trips.html" class="dropdown-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2"/>
+                <circle cx="6.5" cy="16.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/>
+              </svg>
+              My Trips
+            </a>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item text-destructive" onclick="signOut()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                <polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+              </svg>
+              Sign Out
+            </button>
+          </div>
+        </div>
+
+        <button class="btn-icon mobile-menu-toggle" id="mobile-menu-toggle" onclick="toggleMobileMenu()" style="display: none;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="menu-icon">
+            <line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="18" x2="20" y2="18"/>
+          </svg>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="close-icon" style="display: none;">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Nav -->
+    <nav class="nav-mobile" id="nav-mobile">
+      <div class="container">
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="trips.html" class="nav-link">Find Rides</a>
+        <a href="create.html" class="nav-link">Create Trip</a>
+        <a href="my-trips.html" class="nav-link">My Trips</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero gradient-hero">
+      <div class="hero-pattern"></div>
+      <div class="container hero-content">
+        <div class="hero-badge">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+          </svg>
+          <span>Share rides, save money</span>
+        </div>
+        <h1 class="hero-title">
+          Travel Together<br>
+          <span class="text-accent">Save Together</span>
+        </h1>
+        <p class="hero-description">
+          UniRide connects IIIT students for shared rides to airports, 
+          railway stations, and bus stands. Split costs, make friends.
+        </p>
+        <div class="hero-buttons" id="hero-buttons">
+          <!-- Shown when logged out -->
+          <button class="btn btn-white btn-lg" id="hero-signin" onclick="signInWithGoogle()">
+            <img src="https://www.google.com/favicon.ico" alt="Google" width="20" height="20">
+            Sign in with Google
+          </button>
+          <!-- Shown when logged in -->
+          <div id="hero-logged-in" style="display: none;">
+            <a href="create.html" class="btn btn-accent btn-lg">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2"/>
+                <circle cx="6.5" cy="16.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/>
+              </svg>
+              Create Trip
+            </a>
+            <a href="trips.html" class="btn btn-outline-white btn-lg">Find Rides</a>
+          </div>
+        </div>
+        <p class="hero-note">
+          Use your @iiit.ac.in email to get 
+          <span class="verified-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            IIIT Verified
+          </span>
+        </p>
+      </div>
+      <div class="hero-wave">
+        <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="var(--background)"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Why UniRide?</h2>
+          <p class="section-description">
+            Built exclusively for the IIIT community to make travel easier and more affordable
+          </p>
+        </div>
+        <div class="features-grid">
+          <div class="card feature-card animate-slide-up" style="animation-delay: 0ms;">
+            <div class="feature-icon gradient-primary">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
+            <h3 class="feature-title">IIIT Verified</h3>
+            <p class="feature-description">Only verified IIIT students for trusted rides</p>
+          </div>
+          <div class="card feature-card animate-slide-up" style="animation-delay: 100ms;">
+            <div class="feature-icon gradient-primary">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </div>
+            <h3 class="feature-title">Find Co-Travelers</h3>
+            <p class="feature-description">Match with students going the same way</p>
+          </div>
+          <div class="card feature-card animate-slide-up" style="animation-delay: 200ms;">
+            <div class="feature-icon gradient-primary">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+            <h3 class="feature-title">Flexible Timing</h3>
+            <p class="feature-description">Set your departure window for best matches</p>
+          </div>
+          <div class="card feature-card animate-slide-up" style="animation-delay: 300ms;">
+            <div class="feature-icon gradient-primary">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>
+              </svg>
+            </div>
+            <h3 class="feature-title">Popular Routes</h3>
+            <p class="feature-description">Kochi Airport, Kottayam Railway & more</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works section bg-secondary">
+      <div class="container">
+        <h2 class="section-title text-center">How It Works</h2>
+        <div class="steps-grid">
+          <div class="step animate-slide-up" style="animation-delay: 0ms;">
+            <div class="step-number gradient-accent">1</div>
+            <h3 class="step-title">Create a Trip</h3>
+            <p class="step-description">Set your destination, time window, and seats needed</p>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step animate-slide-up" style="animation-delay: 150ms;">
+            <div class="step-number gradient-accent">2</div>
+            <h3 class="step-title">Find Matches</h3>
+            <p class="step-description">We'll show you students with similar travel plans</p>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step animate-slide-up" style="animation-delay: 300ms;">
+            <div class="step-number gradient-accent">3</div>
+            <h3 class="step-title">Connect & Go</h3>
+            <p class="step-description">Request to join and chat on WhatsApp to coordinate</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta section">
+      <div class="container">
+        <div class="card cta-card gradient-primary">
+          <h2 class="cta-title">Ready to share your next ride?</h2>
+          <p class="cta-description">
+            Join fellow IIIT students and make travel more affordable and fun.
+          </p>
+          <div id="cta-buttons">
+            <button class="btn btn-white shadow-elevated" id="cta-signin" onclick="signInWithGoogle()">
+              Get Started Free
+            </button>
+            <a href="create.html" class="btn btn-white shadow-elevated" id="cta-create" style="display: none;">
+              Create Your First Trip
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>© 2024 UniRide. Made for the IIIT community with ❤️</p>
+    </div>
+  </footer>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Firebase SDK Placeholder -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+  
+  <script src="firebase-config.js"></script>
+  <script src="auth.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
